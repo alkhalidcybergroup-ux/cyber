@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberDownloader</title>
+    <style>
+        body { font-family: monospace; background-color: #020202; color: #00ff33; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: #050505; border: 1px solid #00ff33; padding: 30px; box-shadow: 0 0 20px rgba(0,255,51,0.2); width: 90%; max-width: 500px; text-align: center; }
+        input { width: 80%; padding: 10px; background: transparent; border: 1px solid #00ff33; color: #00ff33; outline: none; }
+        button { padding: 10px 20px; background: #00ff33; border: none; color: #000; font-weight: bold; cursor: pointer; }
+        .result { margin-top: 20px; border: 1px dashed #00ff33; padding: 15px; display: none; }
+        a { color: #000; background: #00ff33; padding: 5px 10px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>⚡ CYBER-EXTRACTOR ⚡</h2>
+        <input type="text" id="url" placeholder="PASTE LINK HERE...">
+        <button id="btn">RUN</button>
+        <div id="res" class="result"></div>
+    </div>
+    <script>
+        document.getElementById('btn').addEventListener('click', async () => {
+            const resDiv = document.getElementById('res');
+            resDiv.style.display = 'block'; resDiv.innerHTML = 'LOADING...';
+            const r = await fetch('/api/extract', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url: document.getElementById('url').value })
+            });
+            const d = await r.json();
+            if(d.status === 'success') {
+                resDiv.innerHTML = `<strong>${d.title}</strong><br><a href="${d.download_url}" target="_blank">DOWNLOAD</a>`;
+            } else { resDiv.innerHTML = 'ERROR'; }
+        });
+    </script>
+</body>
+</html>
