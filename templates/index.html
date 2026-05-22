@@ -3,36 +3,227 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberDownloader</title>
+    <title>CyberDownloader | Premium AI Terminal</title>
     <style>
-        body { font-family: monospace; background-color: #020202; color: #00ff33; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { background: #050505; border: 1px solid #00ff33; padding: 30px; box-shadow: 0 0 20px rgba(0,255,51,0.2); width: 90%; max-width: 500px; text-align: center; }
-        input { width: 80%; padding: 10px; background: transparent; border: 1px solid #00ff33; color: #00ff33; outline: none; }
-        button { padding: 10px 20px; background: #00ff33; border: none; color: #000; font-weight: bold; cursor: pointer; }
-        .result { margin-top: 20px; border: 1px dashed #00ff33; padding: 15px; display: none; }
-        a { color: #000; background: #00ff33; padding: 5px 10px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 10px; }
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #020202;
+            color: #00ff33;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: radial-gradient(circle, #051a05 10%, #000000 90%);
+        }
+        .terminal-container {
+            background-color: rgba(5, 5, 5, 0.95);
+            border: 1px solid #00ff33;
+            width: 90%;
+            max-width: 650px;
+            padding: 30px;
+            box-shadow: 0px 0px 35px rgba(0, 255, 51, 0.25);
+            box-sizing: border-box;
+        }
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px #00ff33;
+            margin-bottom: 5px;
+        }
+        .version {
+            font-size: 10px;
+            color: #ff3333;
+            text-align: center;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+        .input-group {
+            display: flex;
+            border: 1px solid #114411;
+            background: #000;
+        }
+        .input-group input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 15px;
+            color: #00ff33;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            outline: none;
+        }
+        .input-group button {
+            background: transparent;
+            border: none;
+            border-left: 1px solid #00ff33;
+            padding: 0 25px;
+            color: #00ff33;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .input-group button:hover {
+            background: #00ff33;
+            color: #000;
+            box-shadow: 0 0 15px #00ff33;
+        }
+        .status-box {
+            margin-top: 25px;
+            padding: 15px;
+            border: 1px dashed #114411;
+            background: #050505;
+            display: none;
+            font-size: 13px;
+        }
+        .loader {
+            color: #ff3333;
+            animation: blink 1s infinite;
+            text-align: center;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        .result-card {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            text-align: left;
+        }
+        .result-card img {
+            width: 120px;
+            border: 1px solid #114411;
+        }
+        .download-btn, .ai-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            border: 1px solid #00ff33;
+            color: #000;
+            background: #00ff33;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 11px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        .ai-btn {
+            background: #ff3333;
+            border-color: #ff3333;
+            color: #fff;
+        }
+        .ai-btn:hover {
+            background: transparent;
+            color: #ff3333;
+            box-shadow: 0 0 10px #ff3333;
+        }
+        .download-btn:hover {
+            background: transparent;
+            color: #00ff33;
+            box-shadow: 0 0 10px #00ff33;
+        }
+        .ai-summary-text {
+            margin-top: 15px;
+            padding: 10px;
+            border-top: 1px dashed #ff3333;
+            color: #ffffff;
+            font-size: 12px;
+            display: none;
+        }
+        .supported-platforms {
+            margin-top: 40px;
+            font-size: 11px;
+            color: #444;
+            text-align: center;
+            border-top: 1px dashed #112211;
+            padding-top: 15px;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>⚡ CYBER-EXTRACTOR ⚡</h2>
-        <input type="text" id="url" placeholder="PASTE LINK HERE...">
-        <button id="btn">RUN</button>
-        <div id="res" class="result"></div>
+
+    <div class="terminal-container">
+        <h1>⚡ CYBER-EXTRACTOR AI ⚡</h1>
+        <div class="version">[ DECENTRALIZED COGNITIVE NODE v5.0.0 ]</div>
+
+        <div class="input-group">
+            <input type="text" id="targetUrl" placeholder="PASTE LINK HERE (TikTok, YouTube, Insta)..." autocomplete="off">
+            <button id="extractBtn">⚡ RUN</button>
+        </div>
+
+        <div id="statusBox" class="status-box"></div>
+
+        <div class="supported-platforms">
+            AI EXTRACTION HUB • POWERED BY OPEN CYBER SYSTEM
+        </div>
     </div>
+
     <script>
-        document.getElementById('btn').addEventListener('click', async () => {
-            const resDiv = document.getElementById('res');
-            resDiv.style.display = 'block'; resDiv.innerHTML = 'LOADING...';
-            const r = await fetch('/api/extract', {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ url: document.getElementById('url').value })
-            });
-            const d = await r.json();
-            if(d.status === 'success') {
-                resDiv.innerHTML = `<strong>${d.title}</strong><br><a href="${d.download_url}" target="_blank">DOWNLOAD</a>`;
-            } else { resDiv.innerHTML = 'ERROR'; }
+        document.getElementById('extractBtn').addEventListener('click', async () => {
+            const urlInput = document.getElementById('targetUrl').value;
+            const statusBox = document.getElementById('statusBox');
+            
+            if (!urlInput) return;
+
+            statusBox.style.display = 'block';
+            statusBox.innerHTML = '<div class="loader">🛡️ INITIATING SECURE CYBER SCAN & EXTRACTION...</div>';
+
+            // محاكاة تأخير الفحص الأمني لإعطاء فخامة ومصداقية للموقع
+            setTimeout(async () => {
+                try {
+                    const response = await fetch('/api/extract', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ url: urlInput })
+                    });
+                    const data = await response.json();
+
+                    if (data.status === 'success') {
+                        statusBox.innerHTML = `
+                            <div class="result-card">
+                                <img src="${data.thumbnail || 'https://via.placeholder.com/120x90/000000/00ff33?text=MEDIA'}" alt="Thumbnail">
+                                <div>
+                                    <div style="color: #fff; font-weight: bold; margin-bottom: 5px; font-size:12px;">${data.title.substring(0, 60)}...</div>
+                                    <a href="${data.download_url}" target="_blank" class="download-btn">⬇️ DOWNLOAD</a>
+                                    <button onclick="getAiSummary('${data.title.replace(/'/g, "\\'")}')" class="ai-btn">🤖 AI SUMMARY</button>
+                                </div>
+                            </div>
+                            <div id="aiSummaryBox" class="ai-summary-text"></div>
+                        `;
+                    } else {
+                        statusBox.innerHTML = '<div style="color: #ff3333;">❌ EXTRACTION FAILED. VERIFY LINK PROTOCOL.</div>';
+                    }
+                } catch (error) {
+                    statusBox.innerHTML = '<div style="color: #ff3333;">❌ TERMINAL CONNECTION ERROR.</div>';
+                }
+            }, 1200); // 1.2 ثانية للفحص الأمني التلقائي
         });
+
+        async function getAiSummary(videoTitle) {
+            const summaryBox = document.getElementById('aiSummaryBox');
+            summaryBox.style.display = 'block';
+            summaryBox.innerHTML = '<span style="color: #ff3333; animation: blink 1s infinite;">⚙️ AI IS READING AND ANALYZING MEDIA...</span>';
+            
+            try {
+                const response = await fetch('/api/ai-summarize', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title: videoTitle })
+                });
+                const data = await response.json();
+                if (data.status === 'success') {
+                    summaryBox.innerHTML = `<strong style="color: #ff3333;">🤖 COGNITIVE SUMMARY:</strong><br>${data.summary}`;
+                }
+            } catch (e) {
+                summaryBox.innerHTML = '❌ AI LOGIC ERROR.';
+            }
+        }
     </script>
 </body>
 </html>
